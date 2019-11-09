@@ -1,0 +1,41 @@
+#!/bin/bash
+# Maintainer: Gerolf Ziegenhain <gerolf.ziegenhain@gmail.com>
+# Algorithm based on: https://stackoverflow.com/questions/57774180/how-to-handle-timestamp-16-in-garmin-devices
+
+gawk '
+BEGIN { 
+ /* Garmin epoch starts on 1989-12-31 */
+ magic=631065600; 
+}
+
+/"timestamp"/{
+ time_fmt=$2;
+
+ /* Convert to suitable input format for awk*/
+ gsub("[-:T]"," ",time_fmt);
+
+ /* remove " and , */
+ t1=substr(time_fmt,2)
+ t2=substr(t1,1,length(t1)-2)
+
+ /* Save marker offset time */
+ dt_offset=mktime(t2);
+ timestamp=dt_offset-magic;
+ mesgTimestamp = timestamp;
+}
+
+/"timestamp_16"/{
+ timestamp_16=$2;
+
+ /* Calculate new timestamp based on delta */
+ mesgTimestamp += and ( ( timestamp_16 - and ( mesgTimestamp , 0xFFFF ) ) , 0xFFFF);
+ tt=strftime("%Y-%m-%dT%H:%M:%S",mesgTimestamp+magic)
+ print "\"timestamp\": \""tt"\","
+}
+
+{
+ print
+}
+' |jq 
+
+

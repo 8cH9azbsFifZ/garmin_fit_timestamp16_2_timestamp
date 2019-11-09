@@ -15,5 +15,5 @@ Debian
 
 # Using
 
-1. Convert .fit file to .json, i.e. using (Garmin-FIT)[https://github.com/mrihtar/Garmin-FIT].
-2. Add the new absolute timestamp using `cat infile.json |./garmin_timestamp16_to_timestamp > outfile.json`
+1. Convert .fit file to .json, i.e. using [Garmin-FIT](https://github.com/mrihtar/Garmin-FIT).
+2. Add the new absolute timestamp using `cat infile.json |./garmin_timestamp16_to_timestamp > outfile.json`.

@@ -12,6 +12,7 @@ BEGIN {
  time_fmt=$2;
 
  /* Convert to suitable input format for awk*/
+ /* 1989 12 31 23 21 12 */
  gsub("[-:T]"," ",time_fmt);
 
  /* remove " and , */
